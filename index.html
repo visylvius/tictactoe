@@ -17,6 +17,7 @@
 
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
+        <script src="https://cdn.firebase.com/js/client/2.2.7/firebase.js"></script>
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
     <body>
@@ -26,11 +27,12 @@
 
         <!-- Add your site or application content here -->
         <h2>Tic-Tac-Toe</h2>
-        <button type="button" name="play" class="button btn-md btn-primary">New Game</button>
-        <h3>
+        <button type="button" name="login" id="Login">Login</button>
+        <button type="button" name="play" class="button btn-md btn-primary hidden">New Game</button>
+        <h3 class="hidden">
           First player is x.
         </h3>
-        <div class="wrapper row">
+        <div class="wrapper row hidden">
           <div class="row">
             <div class="col-xs-4 col-xs-offset-2 x">
               x
