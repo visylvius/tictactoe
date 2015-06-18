@@ -1,0 +1,13 @@
+html, body, .container {
+  height: 100%;
+}
+
+.screen {
+  background-color: #619499;
+  height: 900px;
+  width: 100%;
+ }
+.board {
+  height: 40px;
+  background-color: 000;
+}
