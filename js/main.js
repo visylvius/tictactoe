@@ -16,11 +16,11 @@ $(document).ready(function(){
 var Game = {};
 
 Game.nextPlayer = function() {
-  if (!this.player1) {
-    return 'player1';
+  if (!this.x) {
+    return 'x';
   }
-  if (!this.player2) {
-    return 'player2';
+  if (!this.o) {
+    return 'o';
   }
   return null;
 }
@@ -31,11 +31,11 @@ gameRef.on("value", function(snap) {
     return;
   }
   Game.players = game.players;
-  Game.player1 = game.players.player1;
-  Game.player2 = game.players.player2;
+  Game.x = game.players.x;
+  Game.o = game.players.o;
 
-  $("#first-player").text(Game.players.player1);
-  $("#second-player").text(Game.players.player2);
+  $("#first-player").text(Game.players.x + " - X");
+  $("#second-player").text(Game.players.o + " - O");
 });
 
 var isNewUser = true;
