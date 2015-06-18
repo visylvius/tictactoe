@@ -15,9 +15,24 @@ $(document).ready(function(){
 
 var Game = {};
 
+Game.nextPlayer = function() {
+  if (!this.player1) {
+    return 'player1';
+  }
+  if (!this.player2) {
+    return 'player2';
+  }
+  return null;
+}
+
 gameRef.on("value", function(snap) {
   var game = snap.val();
+  if (!game) {
+    return;
+  }
   Game.players = game.players;
+  Game.player1 = game.players.player1;
+  Game.player2 = game.players.player2;
 
   $("#first-player").text(Game.players.player1);
   $("#second-player").text(Game.players.player2);
@@ -33,9 +48,12 @@ ref.onAuth(function(authData) {
     //   name: getName(authData)
     // });
     $(".hidden").removeClass("hidden");
-    var currentUsername = authData.twitter.username;
-    // if you're not a player already, and we're still accepting players (players < 2)
-    // gameRef.child("players").set({ player1: currentUserName });
+    Game.currentUsername = authData.twitter.username;
+    var options = {}, nextPlayer = Game.nextPlayer();
+    if (nextPlayer) {
+      options[nextPlayer] = Game.currentUsername;
+      gameRef.child("players").update(options);
+    }
   }
 });
 
