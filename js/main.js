@@ -15,16 +15,6 @@ $(document).ready(function(){
 
 var Game = {};
 
-Game.nextPlayer = function() {
-  if (!this.x) {
-    return 'x';
-  }
-  if (!this.o) {
-    return 'o';
-  }
-  return null;
-}
-
 gameRef.on("value", function(snap) {
   var game = snap.val();
   if (!game) {
@@ -36,25 +26,35 @@ gameRef.on("value", function(snap) {
 
   $("#first-player").text(Game.players.x + " - X");
   $("#second-player").text(Game.players.o + " - O");
-});
 
-var isNewUser = true;
-ref.onAuth(function(authData) {
-  if (authData && isNewUser) {
-    // save the user's profile into Firebase so we can list users,
-    // use them in Security and Firebase Rules, and show profiles
-    // ref.child("users").child(authData.uid).set({//nested children of root -- this is kind of schema setup.
-    //   provider: authData.provider,
-    //   name: getName(authData)
-    // });
-    $(".hidden").removeClass("hidden");
-    Game.currentUsername = authData.twitter.username;
-    var options = {}, nextPlayer = Game.nextPlayer();
-    if (nextPlayer) {
-      options[nextPlayer] = Game.currentUsername;
-      gameRef.child("players").update(options);
+  Game.nextPlayer = function() {
+    if (!this.x) {
+      return 'x';
     }
+    if (!this.o) {
+      return 'o';
+    }
+    return null;
   }
+
+  var isNewUser = true;
+  ref.onAuth(function(authData) {
+    if (authData && isNewUser) {
+      // save the user's profile into Firebase so we can list users,
+      // use them in Security and Firebase Rules, and show profiles
+      // ref.child("users").child(authData.uid).set({//nested children of root -- this is kind of schema setup.
+      //   provider: authData.provider,
+      //   name: getName(authData)
+      // });
+      $(".hidden").removeClass("hidden");
+      Game.currentUsername = authData.twitter.username;
+      var options = {}, nextPlayer = Game.nextPlayer();
+      if (nextPlayer) {
+        options[nextPlayer] = Game.currentUsername;
+        gameRef.child("players").update(options);
+      }
+    }
+  });
 });
 
 function getName(authData) {
