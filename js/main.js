@@ -1,3 +1,4 @@
+var Game = {};
 var FB = {};
 
 FB.ref = new Firebase("https://cht3game.firebaseio.com/dsajfkljasdfjkadskljfloeqworuoierutoie");
@@ -22,11 +23,12 @@ $(document).ready(function() {
   $(".cell").on("click", function() {
     isMyTurn = Game.isMyTurn();
     currentUserMark = Game.getCurrentUserMark();
-    if (isMyTurn) {
+    var cellText = $(this).text();
+    if (isMyTurn && !cellText) {
       clickedCell = $(this).data("cell");
       gridUpdate = {};
       gridUpdate[clickedCell] = currentUserMark;
-      FB.turnRef.set({ lastMark: currentUserMark })
+      FB.turnRef.set({ lastMark: currentUserMark });
       FB.gridRef.update(gridUpdate);
       var claimedCells = $(".cell." + currentUserMark);
       // claimedCells.map(function(i, c) { return $(c).data("win"); });
@@ -34,11 +36,11 @@ $(document).ready(function() {
   });
 });
 
-var Game = {};
+
 
 Game.isMyTurn = function() {
   return (Game.lastMark || 'o') !== Game.getCurrentUserMark();
-}
+};
 
 Game.getCurrentUserMark = function() {
   if (Game.x === Game.currentUsername) {
@@ -48,7 +50,7 @@ Game.getCurrentUserMark = function() {
     return 'o';
   }
   return null;
-}
+};
 
 FB.playersRef.on("value", assignPlayers);
 FB.gridRef.on("value", redrawGrid);
@@ -90,7 +92,7 @@ Game.nextPlayer = function() {
     return 'o';
   }
   return null;
-}
+};
 
 var isNewUser = true;
 FB.ref.onAuth(function(authData) {
