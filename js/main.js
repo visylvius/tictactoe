@@ -5,6 +5,8 @@ FB.gameRef = FB.ref.child("game");
 FB.gridRef = FB.gameRef.child("grid");
 
 $(document).ready(function(){
+  var clickedCell, currentMark, gridUpdate = {};
+
   $("button#Login").on("click", function(){
     FB.ref.authWithOAuthPopup("twitter", function(error, authData) {
       if (error) {
@@ -16,9 +18,12 @@ $(document).ready(function(){
   });
 
   $(".cell").on("click", function() {
-    var currentMark = Game.currentMark();
+    currentMark = Game.currentMark();
     if (currentMark) {
-
+      clickedCell = $(this).data("cell");
+      gridUpdate = {};
+      gridUpdate["gc-" + clickedCell] = currentMark;
+      FB.gridRef.update(gridUpdate);
       $(this).addClass(currentMark).text(currentMark);
     }
   });
